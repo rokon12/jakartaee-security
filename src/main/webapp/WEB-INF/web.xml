@@ -1,0 +1,44 @@
+<web-app version="6.0"
+         xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <!-- Enable security annotations for JAX-RS -->
+    <context-param>
+        <param-name>resteasy.role.based.security</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+<!--    &lt;!&ndash; Configure security domain for Jakarta Security &ndash;&gt;-->
+<!--    <security-constraint>-->
+<!--        <web-resource-collection>-->
+<!--            <web-resource-name>Secured Resources</web-resource-name>-->
+<!--            <url-pattern>/rest/*</url-pattern>-->
+<!--        </web-resource-collection>-->
+<!--        <auth-constraint>-->
+<!--            <role-name>user</role-name>-->
+<!--            <role-name>admin</role-name>-->
+<!--            <role-name>guest</role-name>-->
+<!--        </auth-constraint>-->
+<!--    </security-constraint>-->
+
+<!--    <login-config>-->
+<!--        <auth-method>BASIC</auth-method>-->
+<!--        <realm-name>user-realm</realm-name>-->
+<!--    </login-config>-->
+
+<!--    <security-role>-->
+<!--        <role-name>user</role-name>-->
+<!--    </security-role>-->
+<!--    <security-role>-->
+<!--        <role-name>admin</role-name>-->
+<!--    </security-role>-->
+<!--    <security-role>-->
+<!--        <role-name>guest</role-name>-->
+<!--    </security-role>-->
+
+</web-app>
