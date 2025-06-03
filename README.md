@@ -8,8 +8,8 @@ the [Maven Wrapper](https://maven.apache.org/wrapper/) is already included in th
 is not actually needed. You may first need to execute `chmod +x mvnw`.
 
 ```
-./mvnw clean package wildfly:run
+./mvnw clean package cargo:run
 ```
 
-Once the runtime starts, you can access the project at [http://localhost:8080/jakartaee-security](http://localhost:8080/jakartaee-security).
+Once the runtime starts, you can access the project at [http://localhost:8080/jakartaee-hello-world](http://localhost:8080/jakartaee-hello-world).
 
