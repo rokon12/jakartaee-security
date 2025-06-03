@@ -25,18 +25,23 @@ public class HelloWorldResource {
         String userNameToGreet = (name == null) || name.trim().isEmpty() ? "world" : name;
 
         Principal userPrincipal = securityContext.getUserPrincipal();
-        String authenticatedUsername = "anonymous"; // Default if principal is null
+        String authenticatedUsername = "anonymous";
 
         if (userPrincipal != null) {
             authenticatedUsername = userPrincipal.getName();
-            // Log the Principal object itself and its name
-            LOGGER.log(Level.INFO, "In hello() - User Principal: {0}, Name: {1}", new Object[]{userPrincipal, authenticatedUsername});
+            LOGGER.log(Level.INFO, "Successful access to hello endpoint - User: {0}, Roles: user", authenticatedUsername);
+            
+            // Log additional security context info
+            boolean hasUserRole = securityContext.isUserInRole("user");
+            boolean hasAdminRole = securityContext.isUserInRole("admin");
+            LOGGER.log(Level.INFO, "User {0} - hasUserRole: {1}, hasAdminRole: {2}", 
+                      new Object[]{authenticatedUsername, hasUserRole, hasAdminRole});
         } else {
-            // This would be unexpected if @RolesAllowed("user") is working
-            LOGGER.log(Level.WARNING, "In hello() - User Principal is NULL even after @RolesAllowed(\"user\")");
+            LOGGER.log(Level.WARNING, "User Principal is NULL after @RolesAllowed - this should not happen");
         }
 
-        String message = String.format("Hello, %s! You are authenticated as: %s. You have the 'user' role.", userNameToGreet, authenticatedUsername);
+        String message = String.format("Hello, %s! You are authenticated as: %s. You have the 'user' role.", 
+                                      userNameToGreet, authenticatedUsername);
         return Response.ok(new Hello(message)).build();
     }
 
@@ -45,10 +50,40 @@ public class HelloWorldResource {
     @RolesAllowed("admin")
     @Produces({MediaType.APPLICATION_JSON})
     public Response adminEndpoint(@Context SecurityContext securityContext) {
-        LOGGER.log(Level.INFO, "Entering adminEndpoint()...");
+        Principal userPrincipal = securityContext.getUserPrincipal();
+        String authenticatedUsername = userPrincipal != null ? userPrincipal.getName() : "unknown";
+        
+        LOGGER.log(Level.INFO, "Successful access to admin endpoint - User: {0}, Roles: admin", authenticatedUsername);
+        
+        boolean hasAdminRole = securityContext.isUserInRole("admin");
+        boolean hasUserRole = securityContext.isUserInRole("user");
+        LOGGER.log(Level.INFO, "Admin user {0} - hasAdminRole: {1}, hasUserRole: {2}", 
+                  new Object[]{authenticatedUsername, hasAdminRole, hasUserRole});
 
-        String message = "Admin endpoint accessed by: Programmatic 'admin' role check";
-        return Response.ok(new Hello(message))
-                .build();
+        String message = String.format("Admin endpoint accessed by: %s (with admin role)", authenticatedUsername);
+        return Response.ok(new Hello(message)).build();
+    }
+
+    @GET
+    @Path("public")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response publicEndpoint() {
+        LOGGER.log(Level.INFO, "Public endpoint accessed - no authentication required");
+        String message = "This is a public endpoint - no authentication required";
+        return Response.ok(new Hello(message)).build();
+    }
+
+    @GET
+    @Path("guest")
+    @RolesAllowed("guest")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response guestEndpoint(@Context SecurityContext securityContext) {
+        Principal userPrincipal = securityContext.getUserPrincipal();
+        String authenticatedUsername = userPrincipal != null ? userPrincipal.getName() : "unknown";
+        
+        LOGGER.log(Level.INFO, "Successful access to guest endpoint - User: {0}, Roles: guest", authenticatedUsername);
+
+        String message = String.format("Guest endpoint accessed by: %s (with guest role)", authenticatedUsername);
+        return Response.ok(new Hello(message)).build();
     }
 }
