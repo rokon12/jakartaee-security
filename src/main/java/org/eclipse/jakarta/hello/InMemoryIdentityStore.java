@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ApplicationScoped
+@Priority(70)
 public class InMemoryIdentityStore implements IdentityStore {
     private static final Logger LOGGER = Logger.getLogger(InMemoryIdentityStore.class.getName());
 
@@ -47,7 +48,6 @@ public class InMemoryIdentityStore implements IdentityStore {
                 LOGGER.log(Level.INFO, "Authentication SUCCESS for user: {0} with roles: {1}",
                         new Object[]{username, user.roles()});
                 
-                // This is the key fix: pass roles as groups
                 return new CredentialValidationResult(username, user.roles());
             } else {
                 LOGGER.log(Level.WARNING, "Authentication FAILED for user: {0}", username);
