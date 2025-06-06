@@ -2,8 +2,6 @@ package org.eclipse.jakarta.hello;
 
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Default;
-import jakarta.inject.Named;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
@@ -36,7 +34,7 @@ public class InMemoryIdentityStore implements IdentityStore {
     @Override
     public CredentialValidationResult validate(Credential credential) {
         LOGGER.info("==== InMemoryIdentityStore.validate() CALLED ====");
-        
+
         if (credential instanceof UsernamePasswordCredential usernamePassword) {
             String username = usernamePassword.getCaller();
             String password = usernamePassword.getPasswordAsString();
@@ -47,7 +45,7 @@ public class InMemoryIdentityStore implements IdentityStore {
             if (user != null && user.password().equals(password)) {
                 LOGGER.log(Level.INFO, "Authentication SUCCESS for user: {0} with roles: {1}",
                         new Object[]{username, user.roles()});
-                
+
                 return new CredentialValidationResult(username, user.roles());
             } else {
                 LOGGER.log(Level.WARNING, "Authentication FAILED for user: {0}", username);

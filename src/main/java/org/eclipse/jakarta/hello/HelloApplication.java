@@ -1,6 +1,5 @@
 package org.eclipse.jakarta.hello;
 
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.ApplicationPath;

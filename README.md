@@ -11,5 +11,5 @@ is not actually needed. You may first need to execute `chmod +x mvnw`.
 ./mvnw clean package cargo:run
 ```
 
-Once the runtime starts, you can access the project at [http://localhost:8080/jakartaee-hello-world](http://localhost:8080/jakartaee-hello-world).
+Once the runtime starts, you can access the project at [http://localhost:8080/jakartaee-security](http://localhost:8080/jakartaee-security/).
 
